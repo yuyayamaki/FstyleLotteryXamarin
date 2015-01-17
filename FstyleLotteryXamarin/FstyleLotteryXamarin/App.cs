@@ -7,19 +7,12 @@ using Xamarin.Forms;
 
 namespace FstyleLotteryXamarin
 {
-    public class App
+    public class App : Application
     {
-        public static Page GetMainPage()
+        public App()
         {
-            return new ContentPage
-            {
-                Content = new Label
-                {
-                    Text = "Hello, Forms !",
-                    VerticalOptions = LayoutOptions.CenterAndExpand,
-                    HorizontalOptions = LayoutOptions.CenterAndExpand,
-                },
-            };
+            // The root page of your application
+            MainPage = new View.MainPage();
         }
 
         private static LotteryModel _model;
@@ -38,6 +31,21 @@ namespace FstyleLotteryXamarin
 
                 return _model;
             }
+        }
+
+        protected override void OnStart()
+        {
+            // Handle when your app starts
+        }
+
+        protected override void OnSleep()
+        {
+            // Handle when your app sleeps
+        }
+
+        protected override void OnResume()
+        {
+            // Handle when your app resumes
         }
     }
 }

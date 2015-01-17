@@ -46,13 +46,13 @@ namespace FstyleLotteryXamarin.DataModel
         private ObservableCollection<LotteryItem> tempNumberLotteryItems;
 
         private ObservableCollection<LotteryItem> defaultTextLotteryItems = new ObservableCollection<LotteryItem>{
-    new LotteryItem(Strings.Resources.LotteryItem1),
-    new LotteryItem(Strings.Resources.LotteryItem2),
-    new LotteryItem(Strings.Resources.LotteryItem3),
-    new LotteryItem(Strings.Resources.LotteryItem4),
-    new LotteryItem(Strings.Resources.LotteryItem5),
-    new LotteryItem(Strings.Resources.LotteryItem6),
-    new LotteryItem(Strings.Resources.LotteryItem7)};
+    new LotteryItem(Strings.Resource.LotteryItem1),
+    new LotteryItem(Strings.Resource.LotteryItem2),
+    new LotteryItem(Strings.Resource.LotteryItem3),
+    new LotteryItem(Strings.Resource.LotteryItem4),
+    new LotteryItem(Strings.Resource.LotteryItem5),
+    new LotteryItem(Strings.Resource.LotteryItem6),
+    new LotteryItem(Strings.Resource.LotteryItem7)};
 
         private ObservableCollection<LotteryItem> _textLotteryItems;
         public ObservableCollection<LotteryItem> TextLotteryItems
@@ -133,11 +133,11 @@ namespace FstyleLotteryXamarin.DataModel
             var json = JsonConvert.SerializeObject(storedTextData);
             Settings.TextDataSettings = json;
         }
-
+			
         private void GetRestoredTextLotteryItems()
         {
             var json = Settings.TextDataSettings;
-            if (json == null)
+			if (String.IsNullOrEmpty(json))
             {
                 _textLotteryItems = defaultTextLotteryItems;
             }

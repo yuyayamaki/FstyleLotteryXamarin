@@ -64,8 +64,7 @@ namespace FstyleLotteryXamarin.ViewModel
                         break;
 	            }
 
-            }
-            
+            }            
 
             this.setInitialItems();
         }
@@ -248,12 +247,7 @@ namespace FstyleLotteryXamarin.ViewModel
                                               timerStopFlag = true;
 
                                               // Timer for tick
-                                              currentIntervalSeconds = 1000;
-                                              rouletteInterval = new TimeSpan(0, 0, 0, 0, currentIntervalSeconds);
-                                              Device.StartTimer(rouletteInterval, rouletteDispatcherTimer_Tick);
-
-                                              // Timer for changing the interval of tick
-                                              Device.StartTimer(new TimeSpan(0, 0, 0, 0, 100), changeIntervalDispatcherTimer_Tick);
+                                              Device.StartTimer(new TimeSpan(0, 0, 0, 0, 100), rouletteDispatcherTimer_Tick);
                                           }),
                                           () => CanExcuteStartCommand));
             }
@@ -296,64 +290,81 @@ namespace FstyleLotteryXamarin.ViewModel
         }
 
         private bool isStopButtonClicked = false;
+        private int countUpForSkip = 0;
+        private int limitCount = 4;
 
         private bool rouletteDispatcherTimer_Tick()
         {
-            shiftText();
-
-            //this.Play("ms-appx:///SoundFiles/b_001.wav");
-
-            return timerStopFlag;
-        }
-
-        private bool changeIntervalDispatcherTimer_Tick()
-        {
             if (!isStopButtonClicked)
             {
-                if (currentIntervalSeconds > 20)
+                if (countUpForSkip >= limitCount)
                 {
-                    currentIntervalSeconds -= 20;
-                    rouletteInterval = new TimeSpan(0, 0, 0, 0, currentIntervalSeconds);
-                }
-                else
-                {
-                    CanExcuteStopCommand = true;
-                }
-            }
-            else
-            {
-                if (currentIntervalSeconds < 1000)
-                {
-                    currentIntervalSeconds += 20;
-                    rouletteInterval = new TimeSpan(0, 0, 0, 0, currentIntervalSeconds);
-                }
-                else
-                {
-                    if (_isLegendMode == false)
+                    shiftText();
+
+                    //this.Play("ms-appx:///SoundFiles/b_001.wav");
+
+                    if (limitCount > 1)
                     {
-                        if (lotteryModel.MainLotteryItems.Where(item => item.Text == _text4 && item.IsNotYet == true).Count() > 0)
-                        {
-                            // Mark as has already elected
-                            lotteryModel.MainLotteryItems.Where(item => item.Text == _text4 && item.IsNotYet == true).First().IsNotYet = false;
-                        }
-                        else
-                            // Skip this item
-                            return true;
+                        limitCount = limitCount - 1;
+                        countUpForSkip = 0;
                     }
-
-                    timerStopFlag = false;
-
-                    isStopButtonClicked = false;
-                    if (lotteryModel.MainLotteryItems.Where(item => item.IsNotYet == true).Count() > 0)
-                        CanExcuteStartCommand = true;
-
-                    Task.WaitAll(Task.Delay(TimeSpan.FromSeconds(1)));
-
-                    //rouletteMusicPlayer.Stop();
-                    //this.Play("ms-appx:///SoundFiles/ji_017.wav");
-
+                    else
+                    {
+                        if(_canExcuteStopCommand == false)
+                            CanExcuteStopCommand = true;
+                    }
+                }
+                else
+                {
+                    countUpForSkip++;
                 }
             }
+            else // Slow down tick
+            {
+                if (countUpForSkip >= limitCount)
+                {
+                    shiftText();
+
+                    //this.Play("ms-appx:///SoundFiles/b_001.wav");
+
+                    if (limitCount < 4)
+                    {
+                        limitCount = limitCount + 1;
+                        countUpForSkip = 0;
+                    }
+                    else
+                    {
+                        if (_isLegendMode == false)
+                        {
+                            if (lotteryModel.MainLotteryItems.Where(item => item.Text == _text4 && item.IsNotYet == true).Count() > 0)
+                            {
+                                // Mark as has already elected
+                                lotteryModel.MainLotteryItems.Where(item => item.Text == _text4 && item.IsNotYet == true).First().IsNotYet = false;
+                            }
+                            else
+                                // Skip this item
+                                return true;
+                        }
+
+                        timerStopFlag = false;
+
+                        isStopButtonClicked = false;
+                        if (lotteryModel.MainLotteryItems.Where(item => item.IsNotYet == true).Count() > 0)
+                            CanExcuteStartCommand = true;
+
+                        Task.WaitAll(Task.Delay(TimeSpan.FromSeconds(1)));
+
+                        //rouletteMusicPlayer.Stop();
+                        //this.Play("ms-appx:///SoundFiles/ji_017.wav");
+
+                    }
+                }
+                else
+                {
+                    countUpForSkip++;
+                }
+            }
+
             return timerStopFlag;
         }
 

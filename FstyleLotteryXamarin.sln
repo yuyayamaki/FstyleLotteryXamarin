@@ -11,6 +11,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FstyleLotteryXamarin.Androi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FstyleLotteryXamarin.WinPhone", "FstyleLotteryXamarin\FstyleLotteryXamarin.WinPhone\FstyleLotteryXamarin.WinPhone.csproj", "{581A383D-F0EE-4731-B2AF-50B8DDE033EF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{00CF8857-6544-41B4-BF8F-6105E58C2F2E}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU
@@ -183,9 +190,9 @@ Global
 		{581A383D-F0EE-4731-B2AF-50B8DDE033EF}.Debug|ARM.Deploy.0 = Debug|ARM
 		{581A383D-F0EE-4731-B2AF-50B8DDE033EF}.Debug|iPhone.ActiveCfg = Debug|Any CPU
 		{581A383D-F0EE-4731-B2AF-50B8DDE033EF}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{581A383D-F0EE-4731-B2AF-50B8DDE033EF}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{581A383D-F0EE-4731-B2AF-50B8DDE033EF}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{581A383D-F0EE-4731-B2AF-50B8DDE033EF}.Debug|Mixed Platforms.Deploy.0 = Debug|x86
+		{581A383D-F0EE-4731-B2AF-50B8DDE033EF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{581A383D-F0EE-4731-B2AF-50B8DDE033EF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{581A383D-F0EE-4731-B2AF-50B8DDE033EF}.Debug|Mixed Platforms.Deploy.0 = Debug|Any CPU
 		{581A383D-F0EE-4731-B2AF-50B8DDE033EF}.Debug|x86.ActiveCfg = Debug|x86
 		{581A383D-F0EE-4731-B2AF-50B8DDE033EF}.Debug|x86.Build.0 = Debug|x86
 		{581A383D-F0EE-4731-B2AF-50B8DDE033EF}.Debug|x86.Deploy.0 = Debug|x86
@@ -206,5 +213,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = FstyleLotteryXamarin\FstyleLotteryXamarin.Android\FstyleLotteryXamarin.Android.csproj
 	EndGlobalSection
 EndGlobal

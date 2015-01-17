@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2014/deployment" AppPlatformVersion="8.1">
   <DefaultLanguage xmlns="" code="en-US" />
+  <Languages xmlns="">
+    <Language code="ja" />
+    <Language code="ja-JP" />
+  </Languages>
   <App xmlns="" ProductID="{c6792c67-954c-4b1d-b4cd-5437eeb83980}" Title="FstyleLotteryXamarin.WinPhone" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="FstyleLotteryXamarin.WinPhone author" Description="Sample description" Publisher="FstyleLotteryXamarin.WinPhone" PublisherID="{f4af7833-22ce-43b7-a2d6-93ca311bd455}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>

@@ -13,14 +13,16 @@ using Xamarin.Forms;
 
 namespace FstyleLotteryXamarin.WinPhone
 {
-    public partial class MainPage : PhoneApplicationPage
+    public partial class MainPage : global::Xamarin.Forms.Platform.WinPhone.FormsApplicationPage
     {
         public MainPage()
         {
             InitializeComponent();
 
-            Forms.Init();
-            Content = FstyleLotteryXamarin.App.GetMainPage().ConvertPageToUIElement(this);
+            SupportedOrientations = SupportedPageOrientation.PortraitOrLandscape;
+
+            global::Xamarin.Forms.Forms.Init();
+            LoadApplication(new FstyleLotteryXamarin.App());
         }
     }
 }

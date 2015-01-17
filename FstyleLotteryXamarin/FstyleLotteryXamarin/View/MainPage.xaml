@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage
+  xmlns="http://xamarin.com/schemas/2014/forms"
+  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+  x:Class="FstyleLotteryXamarin.View.MainPage">
+  <Grid x:Name="defaultView" BackgroundColor="White">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="3*" />
+      <ColumnDefinition Width="1*" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="3*" />
+      <RowDefinition Height="1*" />
+    </Grid.RowDefinitions>
+
+    <Grid Grid.ColumnSpan="2" Grid.Row="1" Padding="15" HorizontalOptions="End">
+      <Button Text="Start" Font="45" Command="{Binding StartCommand}" TextColor="White" BackgroundColor="#0072C6" IsVisible="{Binding IsStartButtonVisible}" IsEnabled="{Binding CanExcuteStartCommand}"/>
+      <Button Text="Stop" Font="45" Command="{Binding StopCommand}" TextColor="White" BackgroundColor="#E81123" IsVisible="{Binding IsStopButtonVisible}" IsEnabled="{Binding CanExcuteStopCommand}"/>
+    </Grid>
+
+    <ContentView Grid.Column="1" Padding="-130,-145,-250,10">
+      <Image Source="efstakun.png"/>
+    </ContentView>
+    
+    <Grid Grid.RowSpan="2" Padding="0,40,0,60">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="0.7*"/>
+        <RowDefinition Height="0.8*"/>
+        <RowDefinition Height="0.9*"/>
+        <RowDefinition Height="1*"/>
+        <RowDefinition Height="0.9*"/>
+        <RowDefinition Height="0.8*"/>
+        <RowDefinition Height="0.7*"/>
+      </Grid.RowDefinitions>
+
+      <Label Text="{Binding Text1}" TextColor="#FFC0C0C0" RotationX="60" Font="32" VerticalOptions="Center" HorizontalOptions="Center"/>
+
+      <Label Grid.Row="1" Text="{Binding Text2}" TextColor="#FFB0B0B0" RotationX="40" Font="32" VerticalOptions="Center" HorizontalOptions="Center"/>
+
+      <Label Grid.Row="2" Text="{Binding Text3}" TextColor="#FFA0A0A0" RotationX="20" Font="32" VerticalOptions="Center" HorizontalOptions="Center"/>
+
+      <BoxView Grid.Row="3" Color="#FFD7D7D7" HeightRequest="2" VerticalOptions="Start"/>
+      <Label Grid.Row="3" Text="{Binding Text4}" TextColor="Black" Font="32" VerticalOptions="Center" HorizontalOptions="Center"/>
+      <BoxView Grid.Row="3" Color="#FFD7D7D7" HeightRequest="2" VerticalOptions="End"/>
+
+      <Label Grid.Row="4" Text="{Binding Text5}" TextColor="#FFA0A0A0" RotationX="-20" Font="32" VerticalOptions="Center" HorizontalOptions="Center"/>
+
+      <Label Grid.Row="5" Text="{Binding Text6}" TextColor="#FFB0B0B0" RotationX="-40" Font="32" VerticalOptions="Center" HorizontalOptions="Center"/>
+
+      <Label Grid.Row="6" Text="{Binding Text7}" TextColor="#FFC0C0C0" RotationX="-60" Font="32" VerticalOptions="Center" HorizontalOptions="Center"/>
+
+    </Grid>
+  </Grid>
+</ContentPage>

@@ -11,8 +11,8 @@ using Xamarin.Forms.Platform.Android;
 
 namespace FstyleLotteryXamarin.Droid
 {
-    [Activity(Label = "FstyleLotteryXamarin", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : AndroidActivity
+    [Activity(Label = "FstyleLotteryXamarin", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
     {
         protected override void OnCreate(Bundle bundle)
         {
@@ -20,7 +20,7 @@ namespace FstyleLotteryXamarin.Droid
 
             Xamarin.Forms.Forms.Init(this, bundle);
 
-            SetPage(App.GetMainPage());
+            LoadApplication(new App());
         }
     }
 }

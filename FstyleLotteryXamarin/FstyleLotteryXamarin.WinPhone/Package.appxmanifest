@@ -35,6 +35,9 @@
           BackgroundColor="#464646">
         <m3:DefaultTile Square71x71Logo="Assets\SquareTile71x71.png"/>
         <m3:SplashScreen Image="Assets\Splashscreen.png" />
+        <m3:InitialRotationPreference>
+          <m3:Rotation Preference="landscape" />
+        </m3:InitialRotationPreference>
       </m3:VisualElements>
       <Extensions>
         <Extension Category="windows.backgroundTasks" EntryPoint="AgHost.BackgroundTask">
