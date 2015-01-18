@@ -59,6 +59,28 @@ namespace FstyleLotteryXamarin.Droid
 			{
 			}
 		}
+		
+		public partial class Raw
+		{
+			
+			// aapt resource value: 0x7f030000
+			public const int b_001 = 2130903040;
+			
+			// aapt resource value: 0x7f030001
+			public const int ji_017 = 2130903041;
+			
+			// aapt resource value: 0x7f030002
+			public const int lo_040 = 2130903042;
+			
+			static Raw()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Raw()
+			{
+			}
+		}
 	}
 }
 #pragma warning restore 1591

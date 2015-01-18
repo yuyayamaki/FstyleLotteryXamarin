@@ -15,7 +15,6 @@ namespace FstyleLotteryXamarin.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private TimeSpan rouletteInterval;
         private bool timerStopFlag;
         
         //private WavePlayer wavePlayer = new WavePlayer();
@@ -193,8 +192,6 @@ namespace FstyleLotteryXamarin.ViewModel
             }
         }
 
-        private int currentIntervalSeconds;
-
         private RelayCommand _startCommand;
         private RelayCommand _stopCommand;
         private RelayCommand _cleanUpCommand;
@@ -239,6 +236,7 @@ namespace FstyleLotteryXamarin.ViewModel
                                           () =>
                                           {
                                               //rouletteMusicPlayer.Play();
+                                              DependencyService.Get<IWavePlayer>().LoopPlay("lo_040");
                                               
                                               IsStartButtonVisible = false;
                                               CanExcuteStopCommand = false;
@@ -247,7 +245,7 @@ namespace FstyleLotteryXamarin.ViewModel
                                               timerStopFlag = true;
 
                                               // Timer for tick
-                                              Device.StartTimer(new TimeSpan(0, 0, 0, 0, 100), rouletteDispatcherTimer_Tick);
+                                              Device.StartTimer(new TimeSpan(0, 0, 0, 0, 125), rouletteDispatcherTimer_Tick);
                                           }),
                                           () => CanExcuteStartCommand));
             }
@@ -301,7 +299,7 @@ namespace FstyleLotteryXamarin.ViewModel
                 {
                     shiftText();
 
-                    //this.Play("ms-appx:///SoundFiles/b_001.wav");
+                    DependencyService.Get<IWavePlayer>().Play("b_001");
 
                     if (limitCount > 1)
                     {
@@ -325,7 +323,7 @@ namespace FstyleLotteryXamarin.ViewModel
                 {
                     shiftText();
 
-                    //this.Play("ms-appx:///SoundFiles/b_001.wav");
+                    DependencyService.Get<IWavePlayer>().Play("b_001");
 
                     if (limitCount < 4)
                     {
@@ -355,7 +353,10 @@ namespace FstyleLotteryXamarin.ViewModel
                         Task.WaitAll(Task.Delay(TimeSpan.FromSeconds(1)));
 
                         //rouletteMusicPlayer.Stop();
+                        DependencyService.Get<IWavePlayer>().Stop("lo_040");
+
                         //this.Play("ms-appx:///SoundFiles/ji_017.wav");
+                        DependencyService.Get<IWavePlayer>().Play("ji_017");
 
                     }
                 }
