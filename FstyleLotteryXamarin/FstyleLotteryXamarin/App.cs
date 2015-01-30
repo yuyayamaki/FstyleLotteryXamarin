@@ -36,16 +36,19 @@ namespace FstyleLotteryXamarin
         protected override void OnStart()
         {
             // Handle when your app starts
+            DependencyService.Get<ISoundPlayer>().Initialize();
         }
 
         protected override void OnSleep()
         {
             // Handle when your app sleeps
+            DependencyService.Get<ISoundPlayer>().Dispose();
         }
 
         protected override void OnResume()
         {
             // Handle when your app resumes
+            DependencyService.Get<ISoundPlayer>().Initialize();
         }
     }
 }

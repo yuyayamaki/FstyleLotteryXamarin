@@ -15,11 +15,6 @@ namespace FstyleLotteryXamarin.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private bool timerStopFlag;
-        
-        //private WavePlayer wavePlayer = new WavePlayer();
-        //private CanStopWavePlayer rouletteMusicPlayer = new CanStopWavePlayer("ms-appx:///SoundFiles/lo_040.wav");
-
         public MainViewModel()
         {
             IsStartButtonVisible = true;
@@ -31,10 +26,10 @@ namespace FstyleLotteryXamarin.ViewModel
             this.lotteryViewItems.AddRange(GetStringListFromLotteryItems(lotteryModel.MainLotteryItems).ToArray());
 
             // Case of less than 7 items
-            if(lotteryModel.MainLotteryItems.Count <= 6)
+            if (lotteryModel.MainLotteryItems.Count <= 6)
             {
                 switch (lotteryModel.MainLotteryItems.Count)
-	            {
+                {
                     case 2:
                         for (int i = 0; i < 2; i++)
                         {
@@ -61,9 +56,9 @@ namespace FstyleLotteryXamarin.ViewModel
                     case 6:
                         lotteryViewItems.Add(lotteryModel.MainLotteryItems[0].Text);
                         break;
-	            }
+                }
 
-            }            
+            }
 
             this.setInitialItems();
         }
@@ -72,12 +67,12 @@ namespace FstyleLotteryXamarin.ViewModel
         {
             var tempList = new List<string>();
             foreach (var item in observableCollection)
-	        {
+            {
                 tempList.Add(item.Text);
-	        }
+            }
             return tempList;
         }
-    
+
         private LotteryModel lotteryModel;
 
         private List<string> lotteryViewItems = new List<string>();
@@ -195,7 +190,7 @@ namespace FstyleLotteryXamarin.ViewModel
         private RelayCommand _startCommand;
         private RelayCommand _stopCommand;
         private RelayCommand _cleanUpCommand;
-  
+
         private bool _canExcuteStartCommand = true;
         private bool _canExcuteStopCommand = false;
 
@@ -231,21 +226,18 @@ namespace FstyleLotteryXamarin.ViewModel
         {
             get
             {
-                return _startCommand 
+                return _startCommand
                     ?? (_startCommand = new RelayCommand(new Action(
                                           () =>
                                           {
-                                              //rouletteMusicPlayer.Play();
-                                              DependencyService.Get<IWavePlayer>().LoopPlay("lo_040");
-                                              
+                                              DependencyService.Get<IRouletteMusicPlayer>().LoopPlay();
+
                                               IsStartButtonVisible = false;
                                               CanExcuteStopCommand = false;
                                               CanExcuteStartCommand = false;
 
-                                              timerStopFlag = true;
-
                                               // Timer for tick
-                                              Device.StartTimer(new TimeSpan(0, 0, 0, 0, 125), rouletteDispatcherTimer_Tick);
+                                              Device.StartTimer(new TimeSpan(0, 0, 0, 0, 125), rouletteTimer_Tick);
                                           }),
                                           () => CanExcuteStartCommand));
             }
@@ -280,7 +272,6 @@ namespace FstyleLotteryXamarin.ViewModel
                     ?? (_cleanUpCommand = new RelayCommand(new Action(
                                           () =>
                                           {
-                                              timerStopFlag = false;
                                               //wavePlayer.Dispose();
                                               //rouletteMusicPlayer.Dispose();
                                           })));
@@ -289,9 +280,9 @@ namespace FstyleLotteryXamarin.ViewModel
 
         private bool isStopButtonClicked = false;
         private int countUpForSkip = 0;
-        private int limitCount = 4;
+        private int limitCount = 8;
 
-        private bool rouletteDispatcherTimer_Tick()
+        private bool rouletteTimer_Tick()
         {
             if (!isStopButtonClicked)
             {
@@ -299,7 +290,7 @@ namespace FstyleLotteryXamarin.ViewModel
                 {
                     shiftText();
 
-                    DependencyService.Get<IWavePlayer>().Play("b_001");
+                    this.PlaySound("b_001");
 
                     if (limitCount > 1)
                     {
@@ -308,7 +299,7 @@ namespace FstyleLotteryXamarin.ViewModel
                     }
                     else
                     {
-                        if(_canExcuteStopCommand == false)
+                        if (_canExcuteStopCommand == false)
                             CanExcuteStopCommand = true;
                     }
                 }
@@ -323,9 +314,9 @@ namespace FstyleLotteryXamarin.ViewModel
                 {
                     shiftText();
 
-                    DependencyService.Get<IWavePlayer>().Play("b_001");
+                    this.PlaySound("b_001");
 
-                    if (limitCount < 4)
+                    if (limitCount < 8)
                     {
                         limitCount = limitCount + 1;
                         countUpForSkip = 0;
@@ -340,24 +331,25 @@ namespace FstyleLotteryXamarin.ViewModel
                                 lotteryModel.MainLotteryItems.Where(item => item.Text == _text4 && item.IsNotYet == true).First().IsNotYet = false;
                             }
                             else
+                            {
                                 // Skip this item
+                                countUpForSkip = 0;
                                 return true;
+                            }
                         }
 
-                        timerStopFlag = false;
-
-                        isStopButtonClicked = false;
                         if (lotteryModel.MainLotteryItems.Where(item => item.IsNotYet == true).Count() > 0)
                             CanExcuteStartCommand = true;
 
-                        Task.WaitAll(Task.Delay(TimeSpan.FromSeconds(1)));
+                        Task.Delay(TimeSpan.FromSeconds(1)).ContinueWith(c =>
+                        {
+                            isStopButtonClicked = false;
 
-                        //rouletteMusicPlayer.Stop();
-                        DependencyService.Get<IWavePlayer>().Stop("lo_040");
+                            DependencyService.Get<IRouletteMusicPlayer>().Stop();
+                            this.PlaySound("ji_017");
+                        });
 
-                        //this.Play("ms-appx:///SoundFiles/ji_017.wav");
-                        DependencyService.Get<IWavePlayer>().Play("ji_017");
-
+                        return false;
                     }
                 }
                 else
@@ -366,7 +358,7 @@ namespace FstyleLotteryXamarin.ViewModel
                 }
             }
 
-            return timerStopFlag;
+            return true;
         }
 
         private void shiftText()
@@ -377,16 +369,16 @@ namespace FstyleLotteryXamarin.ViewModel
             Text4 = _text5;
             Text5 = _text6;
             Text6 = _text7;
-            
-            if(lotteryModel.MainLotteryItems.Count >= 7)
+
+            if (lotteryModel.MainLotteryItems.Count >= 7)
                 Text7 = lotteryViewItems[currentFirstItemIndex];
             else
             {
                 switch (lotteryModel.MainLotteryItems.Count)
-	            {
+                {
                     case 6:
-                        if(currentFirstItemIndex + 1 > 6)
-                            currentFirstItemIndex-=6;
+                        if (currentFirstItemIndex + 1 > 6)
+                            currentFirstItemIndex -= 6;
                         Text7 = lotteryViewItems[currentFirstItemIndex + 1];
                         break;
                     case 5:
@@ -401,9 +393,9 @@ namespace FstyleLotteryXamarin.ViewModel
                         break;
                     case 3:
                         while (currentFirstItemIndex + 1 > 3)
-	                    {
-                            currentFirstItemIndex -= 3;        
-	                    }
+                        {
+                            currentFirstItemIndex -= 3;
+                        }
                         Text7 = lotteryViewItems[currentFirstItemIndex];
                         break;
                     case 2:
@@ -437,11 +429,19 @@ namespace FstyleLotteryXamarin.ViewModel
             Text7 = lotteryViewItems[6];
         }
 
-        //private async void Play(string soundFileUrl)
-        //{
-        //    var file = await Windows.Storage.StorageFile
-        //                      .GetFileFromApplicationUriAsync(new Uri(soundFileUrl));
-        //    wavePlayer.StartPlay(file);
-        //}
+        private void PlaySound(string soundId)
+        {
+            DependencyService.Get<ISoundPlayer>().Play(soundId);
+        }
+
+        public string StartButtonUiResource
+        {
+            get { return Strings.Resource.StartButton; }
+        }
+
+        public string StopButtonUiResource
+        {
+            get { return Strings.Resource.StopButton; }
+        }
     }
 }

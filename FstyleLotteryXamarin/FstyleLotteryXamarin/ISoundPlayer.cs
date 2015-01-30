@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace FstyleLotteryXamarin
 {
-    public interface IWavePlayer
+    public interface ISoundPlayer
     {
         void Play(string soundName);
         void LoopPlay(string soundName);
         void Stop(string soundName);
+        void Initialize();
+        void Dispose();
     }
 }

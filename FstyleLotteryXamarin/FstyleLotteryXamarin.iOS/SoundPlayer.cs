@@ -1,16 +1,14 @@
-﻿using FstyleLotteryXamarin.WinPhone;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
+using FstyleLotteryXamarin.iOS;
 
-[assembly: Dependency(typeof(WavePlayer))]
+[assembly: Dependency(typeof(SoundPlayer))]
 
-namespace FstyleLotteryXamarin.WinPhone
+namespace FstyleLotteryXamarin.iOS
 {
-    public class WavePlayer : IWavePlayer
+    public class SoundPlayer : ISoundPlayer
     {
         public void LoopPlay(string soundName)
         {
